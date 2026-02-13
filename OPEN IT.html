@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinay... Ek Serious Baat 👀</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* CSS STYLING */
+        :root {
+            --primary: #ff4757;
+            --secondary: #ff6b81;
+            --bg: #ffe2e2;
+            --text: #2f3542;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffe2e2 0%, #ffccd5 100%);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #eb2f06;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subheading {
+            font-size: 1.2rem;
+            color: #57606f;
+            margin-bottom: 30px;
+        }
+
+        .big-btn {
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            transition: transform 0.2s;
+            animation: pulse 2s infinite;
+        }
+
+        .big-btn:hover {
+            transform: scale(1.05);
+            background-color: #ff2e43;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Modal Popup */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .message-body {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            background: #fff0f0;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+        }
+
+        /* Buttons in Card */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        .btn-yes { background: #2ed573; color: white; }
+        .btn-no { background: #ff4757; color: white; }
+        .btn-treat { background: #ffa502; color: white; }
+
+        .option-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        /* Response Box */
+        .response-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .retry-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 50px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .reasons-list {
+            text-align: left;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .reasons-list p {
+            margin: 15px 0;
+            font-size: 1.1rem;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 10px;
+        }
+
+        /* Final Pic */
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 8px solid var(--primary);
+            overflow: hidden;
+            margin: 0 auto 20px auto;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        footer {
+            padding: 30px;
+            background: #ffcccc;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>Vinay… ek serious baat thi 👀</h1>
+        <p class="subheading">Hasna mat pehle… warna main emotional ho jaunga baby 😌</p>
+        <button class="big-btn" onclick="openCard()">👉 Click karo Jannu ❤️</button>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="card">
+            <h2>HAPPY VALENTINE’S DAY SWETTU 💖</h2>
+            
+            <div class="message-body">
+                <strong>Dear Vinay,</strong><br><br>
+                Main Abhay… tumhara best friend…<br>
+                par aaj thoda upgrade lene aaya hoon 😏<br><br>
+                Kya tum mere Valentine banoge, baby?<br>
+                Ya fir sirf dosti me hi latkaye rakhoge mujhe? 🥲<br><br>
+                Dekho Jannu, chocolates main khilaunga,<br>
+                memes tum bhejna… deal? 🤝😂
+            </div>
+
+            <div class="btn-group" id="btnGroup">
+                <button class="option-btn btn-yes" onclick="handleChoice('yes')">💘 Haan Baby, Main Toh Kabse Wait Kar Raha Tha 😍</button>
+                <button class="option-btn btn-no" onclick="handleChoice('no')">😏 Nahi Bhai, Sirf Best Friend 😌</button>
+                <button class="option-btn btn-treat" onclick="handleChoice('treat')">🤣 Pehle Treat Dena Padega 🍕</button>
+            </div>
+
+            <div id="responseArea" class="response-box"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 style="color: #ff4757;">Reasons Why Tum Perfect Valentine Ho 😌</h2>
+        <div class="reasons-list">
+            <p>✅ Tum meri beizzati bhi pyaar se karte ho ❤️</p>
+            <p>✅ Tum fries share nahi karte, par dil karte ho 😏</p>
+            <p>✅ Tumhari shakal dekh ke mera din funny ho jata hai 😂</p>
+            <p>✅ Aur sabse important… tum mere ho baby 😌</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 style="color: #ff4757;">Official Valentine Material 💘</h2>
+        
+        <div class="photo-frame">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Vinay" alt="Vinay Photo">
+        </div>
+
+        <p style="font-size: 1.2rem; font-style: italic;">
+            “Ye banda dangerous hai…<br>Par cute bhi hai thoda sa 🥺❤️”
+        </p>
+    </div>
+
+    <footer>
+        Made with bakchodi & thoda sa pyaar — By Abhay 😎❤️
+    </footer>
+
+    <script>
+        function openCard() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        function handleChoice(choice) {
+            const btnGroup = document.getElementById('btnGroup');
+            const responseArea = document.getElementById('responseArea');
+            
+            btnGroup.style.display = 'none'; // Buttons chupao
+            responseArea.style.display = 'block'; // Jawab dikhao
+
+            if (choice === 'yes') {
+                responseArea.style.backgroundColor = '#d1ffd6';
+                responseArea.innerHTML = `
+                    <p>Mujhe pata tha Swettu! <br>
+                    Tum toh pehle se hi mere pyaar me the 😌</p>
+                    <p>Ab official ho gaya… <br>
+                    Ab se tum meri Valentine aur main tumhara headache 💀❤️</p>
+                `;
+                // Confetti Blast
+                triggerConfetti();
+            } 
+            else if (choice === 'no') {
+                responseArea.style.backgroundColor = '#ffcfcf';
+                responseArea.innerHTML = `
+                    <p>Achhaaaa 😏 <br> Itna attitude Jannu?</p>
+                    <p>Theek hai… Par yaad rakhna <br>
+                    Sabse cute best friend bhi main hi hoon 😌💅</p>
+                    <span class="retry-link" onclick="resetCard()">Try again baby 😈 (Phir se soch lo)</span>
+                `;
+            } 
+            else if (choice === 'treat') {
+                responseArea.style.backgroundColor = '#fff7d1';
+                responseArea.innerHTML = `
+                    <p>Deal done Swettu! <br>
+                    Valentine bhi, treat bhi, aur bill bhi tumhara 💸😂</p>
+                    <p>Love is temporary… <br>
+                    Par free food is permanent 💀</p>
+                `;
+            }
+            
+            // Auto scroll to make sure they see the message
+            responseArea.scrollIntoView({behavior: "smooth"});
+        }
+
+        function resetCard() {
+            document.getElementById('btnGroup').style.display = 'flex';
+            document.getElementById('responseArea').style.display = 'none';
+        }
+
+        function triggerConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
+
+            function random(min, max) {
+            return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            var particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+    </script>
+
+</body>
+</html>
